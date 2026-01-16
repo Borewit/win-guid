@@ -4,15 +4,14 @@ import { assert } from "chai";
 import { Guid } from "../lib/guid.js";
 
 describe("Guid", () => {
-	it("should parse from a string GUID", () => {
-		const cfbf_doc_guid = "00020906-0000-0000-C000-000000000046";
+	it("should use Windows GUID byte order", () => {
+		const guid = Guid.fromString("00112233-4455-6677-8899-AABBCCDDEEFF");
 
-		const docClsid = new Uint8Array([
-			0x06, 0x09, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46,
+		const expectedWindowsBytes  = new Uint8Array([
+			0x33, 0x22, 0x11, 0x00, 0x55, 0x44, 0x77, 0x66, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF,
 		]);
 
-		const guid = Guid.fromString(cfbf_doc_guid);
-		assert.isTrue(guid.equals(docClsid));
+		assert.deepEqual(guid.bytes, expectedWindowsBytes , "Windows GUID raw byte layout");
 	});
 
 	it("should throw on invalid GUID strings", () => {
