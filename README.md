@@ -71,14 +71,23 @@ Converts the GUID back into the canonical string form.
 
 ```js
 guid.toString();
-````
+```
 Outputs something like:
 ```
 00020906-0000-0000-C000-000000000046`
 ```
 
+`guid.bytes: Uint8Array`
 
+Provides access to the raw 16-byte GUID in Windows / CFBF byte order.
 
+Notes:
+- The returned value is a `Uint8Array(16)`
+- It represents the Windows GUID byte layout (as stored in COM, OLE, CFBF, and related formats)
+
+```js
+const bytes = guid.bytes;
+```
 
 ## Licence
 
