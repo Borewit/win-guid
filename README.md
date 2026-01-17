@@ -4,14 +4,22 @@
 
 # win-guid
 
-Small, dependency-free utility for working with **Windows / CFBF GUIDs** in JavaScript and TypeScript.
+A module for decoding and encoding Windows GUIDs in the **Windows GUID byte layout** used by COM, OLE, and Compound File Binary Format (CFBF), and converting them back to the canonical string form when needed.
 
-It parses canonical GUID strings into the **Windows byte layout** used by COM, OLE, and Compound File Binary Format (CFBF), and converts them back to the standard string form when needed.
+This is useful when dealing with Microsoft file formats such as `.asf`, `.doc`, `.xls`, `.ppt`, OLE/COM Structured Storage (CFBF), or other binary formats that store GUIDs in Windows order.
 
-This is useful when dealing with Microsoft file formats such as `.asf`, `.doc,`, `.xls`, `.ppt`, structured storage,
-or other binary formats that store GUIDs in little-endian Windows order.
+## Windows GUID byte layout vs RFC 9562 UUID byte layout
 
-For RFC9562 compliant UUIDs (network byte order), use [uuid](https://github.com/uuidjs/uuid) instead.
+The table below shows how GUID `00112233-4455-6677-8899-AABBCCDDEEFF` is serialized as an [RFC 9562](https://www.rfc-editor.org/rfc/rfc9562.html) UUID versus a Windows GUID:
+
+| UUID / GUID type        | Serialized byte layout (hexadecimal)              |
+|-------------------------|---------------------------------------------------|
+| RFC 9562 UUID layout    | `00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF` |
+| Windows GUID layout     | `33 22 11 00 55 44 77 66 88 99 AA BB CC DD EE FF` |
+
+Windows GUID layout reorders only the first three fields (32-bit, 16-bit, 16-bit). The remaining 8 bytes are stored as-is.
+
+For RFC 9562 compliant UUIDs (network byte order), use [uuid](https://github.com/uuidjs/uuid) instead.
 
 ## Installation
 
@@ -28,7 +36,7 @@ import { parseWindowsGuid } from "win-guid";
 
 const bytes = parseWindowsGuid("00020906-0000-0000-C000-000000000046");
 
-// Uint8Array(16) in Windows / CFBF byte order
+// Uint8Array(16) in Windows GUID byte order
 ```
 
 ### Use the Guid helper class
@@ -48,7 +56,7 @@ Parses a canonical GUID string:
 const bytes = parseWindowsGuid("00020906-0000-0000-C000-000000000046");
 ```
 
-into a 16-byte Uint8Array using Windows / CFBF byte order.
+into a 16-byte `Uint8Array` using Windows GUID byte order.
 
 - Input is validated strictly
 - Case-insensitive
