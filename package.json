@@ -1,7 +1,7 @@
 {
   "name": "win-guid",
   "version": "0.2.0",
-  "description": "Windows GUID",
+  "description": "Windows legacy GUID parser",
   "type": "module",
   "exports": "./lib/guid.js",
   "scripts": {
@@ -43,6 +43,14 @@
   "keywords": [
     "GUID",
     "Windows",
-    "COM"
+    "COM",
+    "CFBF",
+    "registry",
+    "UEFI",
+    "objectGUID",
+    "GPT",
+    "endianness",
+    "OLE",
+    "binary"
   ]
 }
